@@ -20,10 +20,10 @@ function calcRad(mass) {
     return (3*mass/4*Math.PI)**(1/3)
 }
 
-let sun = new object(700, 400, -0, 0, 2000);
-let earth = new object(700, 100, 2.5, 0, 100, calcRad(100));
-let moon = new object(660, 100, 2.5, 1.5, 10, calcRad(4));
-let mars = new object(700, 700, -2.4, 0, 100, calcRad(100));
+let sun = new object(600, 400, -0, 0, 2000);
+let earth = new object(600, 100, 2.5, 0, 100, calcRad(100));
+let moon = new object(560, 100, 2.5, 1.5, 10, calcRad(4));
+let mars = new object(600, 700, -2.4, 0, 100, calcRad(100));
 
 objects.push(sun, earth, moon, mars)
 
