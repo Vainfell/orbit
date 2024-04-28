@@ -20,19 +20,28 @@ function calcRad(mass) {
     return (3*mass/4*Math.PI)**(1/3)
 }
 
-let sun = new object(600, 400, -0, 0, 2000);
-let earth = new object(600, 100, 2.5, 0, 100, calcRad(100));
-let moon = new object(560, 100, 2.5, 1.5, 10, calcRad(4));
-let mars = new object(600, 700, -2.4, 0, 100, calcRad(100));
+let sun = new object(800, 500, -0, 0, 2000);
+let earth = new object(800, 200, 2.5, 0, 100);
+let moon = new object(760, 200, 2.5, 1.5, 10);
+let mars = new object(800, 900, -2.1, 0, 100);
 
 objects.push(sun, earth, moon, mars)
 
-function draw(thing) {
+function draw(object) {
     ctx.beginPath();
-    ctx.arc(thing.x, thing.y, thing.rad, 0, 2 * Math.PI);
+    ctx.arc(object.x, object.y, object.rad, 0, 2 * Math.PI);
     ctx.fillStyle = "white";
     ctx.fill();
 }
+
+let cursor = {};
+
+document.addEventListener('click', function(event) {
+    cursor.x = event.clientX - 8;
+    cursor.y = event.clientY - 8;
+
+    objects.push(new object(cursor.x, cursor.y, Number(prompt('x velocity')), Number(prompt('y velocity')), Number(prompt('mass'))));
+})
 
 function findAngle(a, b) {
     return Math.atan2(a.y - b.y, a.x - b.x)
@@ -57,13 +66,7 @@ function gravity() {
     }
 }
 
-window.requestAnimationFrame(loop);
-
-function loop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    gravity();
-
+function collision() {
     for(i in objects) {
         for(u in objects) {
             if(objects[i] != objects[u]) {
@@ -78,6 +81,16 @@ function loop() {
             }
         }
     }
+}
+
+window.requestAnimationFrame(loop);
+
+function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    gravity();
+
+    collision();
 
     for(i in objects) {
         objects[i].x += objects[i].xvel
